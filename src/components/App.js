@@ -1,17 +1,26 @@
-import React from "react";
+import React from 'react'
 
-import store from "../stores/MainStore";
-import Canvas from "./Canvas";
-import Toolbar from "./Toolbar";
-import { observer } from "mobx-react";
+import { Provider } from 'mobx-react'
+import configureRootStore from '../stores/configStore'
+import Canvas from './Canvas'
+import Toolbar from './Toolbar'
 
 function App() {
-  return (
-    <div className="app">
-      <Toolbar />
-      <Canvas store={store} />
-    </div>
-  );
+  const [rootTree, setRootTree] = React.useState(null)
+
+  React.useEffect(() => {
+    const { rootStore } = configureRootStore()
+    setRootTree(rootStore)
+  }, [])
+
+  return rootTree ? (
+    <Provider rootTree={rootTree}>
+      <div className='app'>
+        <Toolbar />
+        <Canvas />
+      </div>
+    </Provider>
+  ) : null
 }
 
-export default observer(App);
+export default App
