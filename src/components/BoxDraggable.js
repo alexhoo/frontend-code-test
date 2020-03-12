@@ -1,21 +1,52 @@
-import React from "react";
-import { observer } from "mobx-react";
+// Global Imports
+import React from 'react'
+import { observer } from 'mobx-react'
+import PropTypes from 'prop-types'
+// Local Imports
+import useInteract from '../hooks/useInteract'
+import modelOf from '../utils'
+import BoxModel from '../stores/models/Box'
 
-function BoxDraggable(props) {
+const BoxDraggable = props => {
+  const { id, color, width, height, left, top, selected, box, children } = props
+  const { ref, initiate, style } = useInteract({
+    x: left,
+    y: top,
+    elto: box,
+    isMultiple: true,
+  })
+  React.useEffect(() => {
+    initiate()
+  }, [])
+
   return (
     <div
-      id={props.id}
-      className="box"
+      id={id}
+      ref={ref}
+      className={`box ${selected ? 'multiple' : ''}`}
       style={{
-        backgroundColor: props.color,
-        width: props.width,
-        height: props.height,
-        transform: `translate(${props.left}px, ${props.top}px)`
+        ...style,
+        backgroundColor: color,
+        width,
+        height,
+        border: selected ? '5px dashed pink' : '',
       }}
     >
-      {props.children}
+      {children}
     </div>
-  );
+  )
 }
 
-export default observer(BoxDraggable);
+BoxDraggable.propTypes = {
+  id: PropTypes.string.isRequired,
+  color: PropTypes.string.isRequired,
+  width: PropTypes.number.isRequired,
+  height: PropTypes.number.isRequired,
+  left: PropTypes.number.isRequired,
+  top: PropTypes.number.isRequired,
+  box: modelOf(BoxModel).isRequired,
+  selected: PropTypes.bool.isRequired,
+  children: PropTypes.node.isRequired,
+}
+
+export default observer(BoxDraggable)
