@@ -1,47 +1,50 @@
 import { pick } from 'ramda'
-import { useState, useEffect, useRef } from 'react'
+import { useCallback, useState, useEffect, useRef } from 'react'
 import interact from 'interactjs'
 
 const initialValues = {
   x: 0,
   y: 0,
   elto: null,
-  isMultiple: false,
 }
 
 const useInteract = (initData = initialValues) => {
   const [isEnabled, setIsEnabled] = useState(true)
+  const [interactRef] = useState(useRef(null))
   const [data, setData] = useState({
     ...initialValues,
     ...initData,
   })
 
-  const interactRef = useRef(null)
   let { x, y } = data
-  const { isMultiple } = data
 
   const stop = () => interact(interactRef.current).unset()
-  const initiate = () => {
-    interact(
-      data.elto.getIsSelected() ? '.multiple' : interactRef.current
-    ).draggable({
-      onstart: event => {},
+
+  const initiate = useCallback(() => {
+    interact(data.elto.selected ? '.multiple' : interactRef.current).draggable({
+      onstart: () => {},
       onmove: event => {
         x += event.dx
         y += event.dy
         setData({ ...data, x, y })
       },
-      onend: event => {
+      onend: () => {
+        // update left/top on this box
         data.elto.updateLeft(x)
-        console.log(x)
         data.elto.updateTop(y)
       },
+      modifiers: [
+        interact.modifiers.restrict({
+          restrict: 'self',
+          endOnly: true,
+        }),
+      ],
     })
 
-    interact(interactRef.current).on('doubletap', event => {
+    interact(interactRef.current).on('doubletap', () => {
       data.elto.updateSelected()
     })
-  }
+  }, [data.elto.selected])
 
   useEffect(() => {
     if (isEnabled) {
@@ -50,7 +53,7 @@ const useInteract = (initData = initialValues) => {
       stop()
     }
     return stop
-  }, [isEnabled, data.elto.selected])
+  }, [isEnabled, initiate])
 
   return {
     ref: interactRef,

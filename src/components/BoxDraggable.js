@@ -13,11 +13,10 @@ const BoxDraggable = props => {
     x: left,
     y: top,
     elto: box,
-    isMultiple: true,
   })
   React.useEffect(() => {
     initiate()
-  }, [])
+  }, [initiate])
 
   return (
     <div

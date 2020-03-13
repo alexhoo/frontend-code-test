@@ -2,7 +2,6 @@ import { types, applySnapshot } from 'mobx-state-tree'
 import uuid from 'uuid/v4'
 import BoxModel from './models/Box'
 import getRandomColor from '../utils/getRandomColor'
-import { toggleEltoInList } from '../utils'
 
 const MainStore = types
   .model('MainStore', {
@@ -19,9 +18,9 @@ const MainStore = types
           color: getRandomColor(),
           left: Math.ceil(Math.random() * 1200),
           top: Math.ceil(Math.random() * 675),
+          selected: false,
         })
 
-        // self.boxes.push(box)
         applySnapshot(self, {
           selectedBoxes: [...self.selectedBoxes],
           boxes: [...self.boxes, box],
@@ -30,20 +29,19 @@ const MainStore = types
       removeBox() {
         self.boxes.splice(self.boxes.length - 1, 1)
       },
-      onSelectBox(box) {
-        self.selectedBoxes = toggleEltoInList(box, self.selectedBoxes)
-      },
       onChangeSelectedBoxesColor(color) {
-        self.selectedBoxes.forEach(box => box.updateColor(color))
+        self.boxes.forEach(box =>
+          box.selected ? box.updateColor(color) : null
+        )
       },
     }
   })
   .views(self => ({
-    getSelectedBox(id) {
-      return self.selectedBoxes.find(x => x.id === id)
+    getBoxById(id) {
+      return self.boxes.find(x => x.id === id)
     },
     getSelectedBoxes() {
-      return self.selectedBoxes
+      return self.boxes.filter(x => x.selected === true)
     },
   }))
 

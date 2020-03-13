@@ -1,4 +1,4 @@
-import { types, getParent } from 'mobx-state-tree'
+import { types } from 'mobx-state-tree'
 
 const BoxModel = types
   .model('Box', {
@@ -32,7 +32,6 @@ const BoxModel = types
       self.top = top
     },
     updateSelected() {
-      getParent(self, 2).onSelectBox(self)
       self.selected = !self.selected
     },
   }))
