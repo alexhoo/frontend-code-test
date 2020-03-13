@@ -29,6 +29,20 @@ const Toolbar = ({ rootTree }) => {
         Nº selected boxes:
         {rootTree.getSelectedBoxes().length}
       </span>
+      <CustomButton
+        onClick={() => {
+          console.log(rootTree.history)
+          return rootTree.history.canUndo && rootTree.history.undo()
+        }}
+      >
+        Undo
+      </CustomButton>
+      <CustomButton
+        onClick={() => rootTree.history.canRedo && rootTree.history.redo()}
+      >
+        {' '}
+        Redo{' '}
+      </CustomButton>
     </ToolBarWrapper>
   )
 }

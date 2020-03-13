@@ -24,13 +24,13 @@ const useInteract = (initData = initialValues) => {
     interact(
       data.elto.getIsSelected() ? '.multiple' : interactRef.current
     ).draggable({
-      onstart: event => {},
+      onstart: () => {},
       onmove: event => {
         x += event.dx
         y += event.dy
         setData({ ...data, x, y })
       },
-      onend: event => {
+      onend: () => {
         // update left/top on this box
         data.elto.updateLeft(x)
         data.elto.updateTop(y)

@@ -1,12 +1,16 @@
+// Global imports
 import { types, applySnapshot } from 'mobx-state-tree'
 import uuid from 'uuid/v4'
 import { defaultTo } from 'ramda'
+import { TimeTraveller } from 'mst-middlewares'
+// Local Imports
 import BoxModel from './models/Box'
 import getRandomColor from '../utils/getRandomColor'
 
 const MainStore = types
   .model('MainStore', {
     boxes: types.array(BoxModel),
+    history: types.optional(TimeTraveller, { targetPath: '../boxes' }),
   })
   .actions(self => {
     return {
@@ -14,8 +18,8 @@ const MainStore = types
         const box = BoxModel.create({
           id: uuid(),
           color: getRandomColor(),
-          left: Math.ceil(Math.random() * 1200),
-          top: Math.ceil(Math.random() * 675),
+          left: 0,
+          top: 0,
           selected: false,
         })
 
