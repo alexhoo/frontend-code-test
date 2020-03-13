@@ -1,15 +1,17 @@
+// Global imports
 import React from 'react'
-
 import { compose } from 'ramda'
 import { inject, observer } from 'mobx-react'
 
+// Local Imports
 import Box from './Box'
 import modelOf from '../utils'
 import MainStore from '../stores/MainStore'
+import { CanvasContainer } from '../styled-components'
 
 const Canvas = ({ rootTree }) => {
   return (
-    <div className='canva'>
+    <CanvasContainer>
       {rootTree.boxes.map(box => (
         <Box
           id={box.id}
@@ -23,7 +25,7 @@ const Canvas = ({ rootTree }) => {
           box={box}
         />
       ))}
-    </div>
+    </CanvasContainer>
   )
 }
 Canvas.propTypes = {

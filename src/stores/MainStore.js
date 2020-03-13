@@ -1,14 +1,12 @@
 import { types, applySnapshot } from 'mobx-state-tree'
 import uuid from 'uuid/v4'
+import { defaultTo } from 'ramda'
 import BoxModel from './models/Box'
 import getRandomColor from '../utils/getRandomColor'
 
 const MainStore = types
   .model('MainStore', {
     boxes: types.array(BoxModel),
-    selectedBoxes: types.array(
-      types.safeReference(BoxModel, { acceptsUndefined: false })
-    ),
   })
   .actions(self => {
     return {
@@ -22,7 +20,6 @@ const MainStore = types
         })
 
         applySnapshot(self, {
-          selectedBoxes: [...self.selectedBoxes],
           boxes: [...self.boxes, box],
         })
       },
@@ -41,7 +38,10 @@ const MainStore = types
       return self.boxes.find(x => x.id === id)
     },
     getSelectedBoxes() {
-      return self.boxes.filter(x => x.selected === true)
+      return defaultTo(
+        0,
+        self.boxes.filter(x => x.selected === true)
+      )
     },
   }))
 

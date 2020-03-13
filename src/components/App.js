@@ -1,7 +1,9 @@
+// Globar Imports
 import React from 'react'
-
 import { Provider } from 'mobx-react'
+// Local Imports
 import configureRootStore from '../stores/configStore'
+import { AppWrapper } from '../styled-components'
 import Canvas from './Canvas'
 import Toolbar from './Toolbar'
 
@@ -15,10 +17,10 @@ function App() {
 
   return rootTree ? (
     <Provider rootTree={rootTree}>
-      <div className='app'>
+      <AppWrapper>
         <Toolbar />
         <Canvas />
-      </div>
+      </AppWrapper>
     </Provider>
   ) : null
 }

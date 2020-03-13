@@ -6,6 +6,7 @@ import PropTypes from 'prop-types'
 import useInteract from '../hooks/useInteract'
 import modelOf from '../utils'
 import BoxModel from '../stores/models/Box'
+import { CustomBox } from '../styled-components'
 
 const BoxDraggable = props => {
   const { id, color, width, height, left, top, selected, box, children } = props
@@ -19,10 +20,10 @@ const BoxDraggable = props => {
   })
 
   return (
-    <div
+    <CustomBox
       id={id}
       ref={ref}
-      className={`box ${selected ? 'multiple' : ''}`}
+      className={`${selected ? 'multiple' : ''}`}
       style={{
         ...style,
         backgroundColor: color,
@@ -32,7 +33,7 @@ const BoxDraggable = props => {
       }}
     >
       {children}
-    </div>
+    </CustomBox>
   )
 }
 
