@@ -1,5 +1,5 @@
 // Global imports
-import { types, applySnapshot } from 'mobx-state-tree'
+import { types } from 'mobx-state-tree'
 import uuid from 'uuid/v4'
 import { defaultTo } from 'ramda'
 import { TimeTraveller } from 'mst-middlewares'
@@ -22,10 +22,7 @@ const MainStore = types
           top: 0,
           selected: false,
         })
-
-        applySnapshot(self, {
-          boxes: [...self.boxes, box],
-        })
+        self.boxes.push(box)
       },
       removeBox() {
         self.boxes.splice(self.boxes.length - 1, 1)

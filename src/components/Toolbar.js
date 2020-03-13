@@ -4,7 +4,7 @@ import { compose } from 'ramda'
 import { inject, observer } from 'mobx-react'
 
 // Local imports
-import CustomButton, { ToolBarWrapper } from '../styled-components'
+import { CustomButton, ToolBarWrapper } from '../styled-components'
 import modelOf from '../utils'
 import MainStore from '../stores/MainStore'
 
@@ -30,18 +30,18 @@ const Toolbar = ({ rootTree }) => {
         {rootTree.getSelectedBoxes().length}
       </span>
       <CustomButton
+        disabled={!rootTree.history.canUndo}
         onClick={() => {
-          console.log(rootTree.history)
           return rootTree.history.canUndo && rootTree.history.undo()
         }}
       >
         Undo
       </CustomButton>
       <CustomButton
+        disabled={!rootTree.history.canRedo}
         onClick={() => rootTree.history.canRedo && rootTree.history.redo()}
       >
-        {' '}
-        Redo{' '}
+        Redo
       </CustomButton>
     </ToolBarWrapper>
   )

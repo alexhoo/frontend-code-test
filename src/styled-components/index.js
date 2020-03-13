@@ -22,8 +22,8 @@ export const ToolBarWrapper = styled.div`
   }
 `
 
-const CustomButton = styled.div`
-  display: inline-block;
+export const CustomButton = styled.button`
+  display: block;
   background-color: #d282a6;
   padding: 10px;
   margin: 10px;
@@ -34,6 +34,13 @@ const CustomButton = styled.div`
   box-sizing: border-box;
   text-transform: uppercase;
   border: 2px solid transparent;
+  :disabled {
+    &:hover {
+      border: 2px solid transparent;
+      cursor: default;
+    }
+    background-color: gray;
+  }
   :hover {
     border: 2px solid pink;
   }
@@ -52,4 +59,3 @@ export const CustomBox = styled.div`
   justify-content: center;
   align-items: center;
 `
-export default CustomButton

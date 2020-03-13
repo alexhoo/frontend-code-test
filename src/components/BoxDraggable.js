@@ -29,7 +29,7 @@ const BoxDraggable = props => {
         backgroundColor: color,
         width,
         height,
-        border: selected ? '5px dashed pink' : '',
+        border: selected ? '5px dashed pink' : '5px solid transparent',
       }}
     >
       {children}
