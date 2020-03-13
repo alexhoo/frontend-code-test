@@ -16,7 +16,7 @@ const BoxDraggable = props => {
   })
   React.useEffect(() => {
     initiate()
-  }, [initiate])
+  })
 
   return (
     <div

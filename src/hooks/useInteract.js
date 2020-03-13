@@ -21,24 +21,20 @@ const useInteract = (initData = initialValues) => {
   const stop = () => interact(interactRef.current).unset()
 
   const initiate = useCallback(() => {
-    interact(data.elto.selected ? '.multiple' : interactRef.current).draggable({
-      onstart: () => {},
+    interact(
+      data.elto.getIsSelected() ? '.multiple' : interactRef.current
+    ).draggable({
+      onstart: event => {},
       onmove: event => {
         x += event.dx
         y += event.dy
         setData({ ...data, x, y })
       },
-      onend: () => {
+      onend: event => {
         // update left/top on this box
         data.elto.updateLeft(x)
         data.elto.updateTop(y)
       },
-      modifiers: [
-        interact.modifiers.restrict({
-          restrict: 'self',
-          endOnly: true,
-        }),
-      ],
     })
 
     interact(interactRef.current).on('doubletap', () => {
